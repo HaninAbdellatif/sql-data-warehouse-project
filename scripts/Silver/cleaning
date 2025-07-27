@@ -1,0 +1,53 @@
+  /*
+  checking repeated and null ids
+  */
+
+SELECT [cst_id],
+      count (*)
+  FROM [Datawarehouse].[Bronze].[crm_cust_info]
+  GROUP BY cst_id
+  HAVING Count(*) > 1 or cst_id is null
+
+===========================================
+
+/*
+  checking enries with spaces
+  */ 
+
+SELECT cst_firstname FROM  Bronze.crm_cust_info
+WHERE cst_firstname != TRIM(cst_firstname)
+
+===========================================
+/*
+  checking format of  genders
+  */ 
+
+SELECT DISTINCT cst_gndr
+FROM Bronze.crm_cust_info
+
+/*
+  checking again repeated and null ids
+  */
+
+SELECT [cst_id],
+      count (*)
+  FROM [Datawarehouse].[Silver].[crm_cust_info]
+  GROUP BY cst_id
+  HAVING Count(*) > 1 or cst_id is null
+
+===========================================
+
+/*
+  checking again enries with spaces
+  */ 
+
+SELECT cst_firstname FROM  Silver.crm_cust_info
+WHERE cst_firstname != TRIM(cst_firstname)
+
+===========================================
+/*
+  checking again format of  genders
+  */ 
+
+SELECT DISTINCT cst_gndr
+FROM Silver.crm_cust_info
