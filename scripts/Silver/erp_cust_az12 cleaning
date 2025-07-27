@@ -1,0 +1,21 @@
+TRUNCATE TABLE Silver.[erp_cust_az12];
+
+INSERT INTO Silver.[erp_cust_az12] ([cid]
+      ,[bdate]
+      ,[gen])
+
+SELECT
+case when cid like 'NAS%' THEN SUBSTRING(cid, 4, len(cid))
+else cid
+end as cid
+
+      , CASE WHEN bdate > getdate() then null
+	  else bdate
+	  END AS bdate,
+      
+	  CASE WHEN UPPER(TRIM(gen)) IN ('F', 'Female') then 'Female'
+	       WHEN UPPER(TRIM(gen)) IN ('M', 'Male') then 'Male'
+		   ELSE 'n/a'
+		   END AS gen
+
+	  FROM Bronze.[erp_cust_az12]
