@@ -1,0 +1,23 @@
+-- check formats
+select distinct cntry from Bronze.erp_loc_a101 order by cntry;
+
+select distinct cntry from Silver.erp_loc_a101 order by cntry
+
+=============================================================================================
+
+TRUNCATE TABLE Silver.[erp_loc_a101];
+
+INSERT INTO Silver.[erp_loc_a101] (
+[cid]
+      ,[cntry]
+)
+
+SELECT
+replace([cid], '-', '') as cid
+      ,CASE WHEN TRIM(cntry) = 'DE' THEN 'Germany'
+	        when TRIM(cntry) in ('US', 'USA') then 'United States'
+			WHEN TRIM(cntry) = '' or cntry is null THEN 'n/a'
+			else TRIM(cntry)
+			end as cntry
+
+	  FROM Bronze.[erp_loc_a101]
