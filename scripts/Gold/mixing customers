@@ -30,7 +30,15 @@ FROM (SELECT ci.[cst_id]
   LEFT JOIN [Datawarehouse].[Silver].[erp_cust_az12] ca
   ON   ci.[cst_key] = ca.cid
 
--- CREATING THE VIEW
+
+
+  left join [Datawarehouse].[Silver].[erp_loc_a101] la
+  ON   ci.[cst_key] = la.cid
+
+  ORDER BY 1,2
+
+
+--creating the view
 CREATE VIEW Gold.dim_customers AS
 SELECT 
        ROW_NUMBER() OVER (ORDER BY cst_id) AS customer_key
@@ -55,9 +63,3 @@ SELECT
 
   left join [Datawarehouse].[Silver].[erp_loc_a101] la
   ON   ci.[cst_key] = la.cid
-
-
-  left join [Datawarehouse].[Silver].[erp_loc_a101] la
-  ON   ci.[cst_key] = la.cid
-
-  ORDER BY 1,2
